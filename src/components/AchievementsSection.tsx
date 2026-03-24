@@ -40,13 +40,13 @@ function AnimatedCounter({ value, suffix = "" }: { value: number; suffix?: strin
 
 const stats = [
   { icon: Target, label: "Problems Solved", value: 500, suffix: "+", color: "text-accent" },
-  { icon: Flame, label: "Max Streak", value: 120, suffix: " days", color: "text-primary" },
-  { icon: Star, label: "LeetCode Rating", value: 1800, suffix: "+", color: "text-secondary" },
+  { icon: Flame, label: "Max Streak", value: 100, suffix: " days", color: "text-primary" },
+  { icon: Star, label: "LeetCode Rating", value: 1697, suffix: "+", color: "text-secondary" },
   { icon: Trophy, label: "Contests Done", value: 10, suffix: "+", color: "text-accent" },
 ];
 
 const achievements = [
-  { icon: Award, title: "LeetCode Knight Badge", desc: "Achieved 1800+ rating in weekly contests" },
+  { icon: Award, title: "LeetCode 50 Days Badge", desc: "Achieved 1697+ rating in weekly contests" },
   { icon: Zap, title: "100 Days Streak", desc: "Maintained consistent daily problem solving" },
   { icon: Trophy, title: "Scholarship Recipient", desc: "Awarded GP Birla and regional merit-based scholarships twice for academic excellence." },
   { icon: Star, title: "SSB Interview Shortlist", desc: "Shortlisted for SSB interview– Indian Navy (South 24 Parganas)" },
