@@ -17,7 +17,7 @@ const education = [
     highlights: ["Physics, Chemistry, Mathematics"],
   },
   {
-    degree: "Higher Secondary (XII)",
+    degree: "Senior Secondary (X)",
     institution: "Rose Public School",
     period: "2019 – 2021",
     grade: "90.4%",
