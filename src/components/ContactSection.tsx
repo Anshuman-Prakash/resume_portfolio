@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Send, Github, Linkedin, Code2, Mail } from "lucide-react";
+import { Send, Github, Linkedin, Code2, Mail, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
+import emailjs from "@emailjs/browser";
 
 const socials = [
   { icon: Github, href: "https://github.com/Anshuman-Prakash", label: "GitHub" },
@@ -16,11 +17,40 @@ const socials = [
 const ContactSection = () => {
   const { toast } = useToast();
   const [form, setForm] = useState({ name: "", email: "", message: "" });
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast({ title: "Message sent!", description: "Thanks for reaching out. I'll get back to you soon." });
-    setForm({ name: "", email: "", message: "" });
+    setLoading(true);
+
+    try {
+      await emailjs.send(
+        import.meta.env.VITE_EMAIL_SERVICE_ID,
+        import.meta.env.VITE_EMAIL_TEMPLATE_ID,
+        {
+          name: form.name,
+          email: form.email,
+          message: form.message,
+        },
+        import.meta.env.VITE_EMAIL_PUBLIC_KEY
+      );
+
+      toast({
+        title: "Message sent!",
+        description: "Thanks for reaching out. I'll get back to you soon.",
+      });
+
+      setForm({ name: "", email: "", message: "" });
+    } catch (error) {
+      console.error(error);
+
+      toast({
+        title: "Error",
+        description: "Failed to send message. Try again.",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -33,22 +63,35 @@ const ContactSection = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <p className="font-mono text-sm text-primary mb-2 tracking-widest uppercase">Get in touch</p>
+          <p className="font-mono text-sm text-primary mb-2 tracking-widest uppercase">
+            Get in touch
+          </p>
           <h2 className="text-3xl md:text-5xl font-bold">Contact Me</h2>
         </motion.div>
 
         <div className="grid md:grid-cols-2 gap-8">
+          {/* LEFT SIDE */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h3 className="text-xl font-bold mb-4 text-foreground">Let's work together</h3>
+            <h3 className="text-xl font-bold mb-4 text-foreground">
+              Let's work together
+            </h3>
             <p className="text-muted-foreground leading-relaxed mb-8">
-              I'm always open to new opportunities, collaborations, and interesting projects. 
-              Feel free to reach out!
+              I'm always open to new opportunities, collaborations, and
+              interesting projects. Feel free to reach out!
             </p>
+
+            <div className="mb-6 space-y-2">
+              <div className="flex items-center gap-2 text-muted-foreground">
+                <Phone size={18} />
+                <span className="text-sm">+91 8825384063</span>
+              </div>
+            </div>
+
             <div className="flex gap-4">
               {socials.map(({ icon: Icon, href, label }) => (
                 <motion.a
@@ -65,6 +108,7 @@ const ContactSection = () => {
             </div>
           </motion.div>
 
+          {/* FORM */}
           <motion.form
             onSubmit={handleSubmit}
             initial={{ opacity: 0, x: 30 }}
@@ -76,28 +120,44 @@ const ContactSection = () => {
             <Input
               placeholder="Your Name"
               value={form.name}
-              onChange={(e) => setForm({ ...form, name: e.target.value })}
+              onChange={(e) =>
+                setForm({ ...form, name: e.target.value })
+              }
               required
               className="bg-background/50 border-border/50 focus:border-primary"
             />
+
             <Input
               type="email"
               placeholder="Your Email"
               value={form.email}
-              onChange={(e) => setForm({ ...form, email: e.target.value })}
+              onChange={(e) =>
+                setForm({ ...form, email: e.target.value })
+              }
               required
               className="bg-background/50 border-border/50 focus:border-primary"
             />
+
             <Textarea
               placeholder="Your Message"
               rows={4}
               value={form.message}
-              onChange={(e) => setForm({ ...form, message: e.target.value })}
+              onChange={(e) =>
+                setForm({ ...form, message: e.target.value })
+              }
               required
               className="bg-background/50 border-border/50 focus:border-primary resize-none"
             />
-            <Button type="submit" variant="hero" size="lg" className="w-full">
-              <Send size={16} /> Send Message
+
+            <Button
+              type="submit"
+              variant="hero"
+              size="lg"
+              className="w-full"
+              disabled={loading}
+            >
+              <Send size={16} />
+              {loading ? "Sending..." : "Send Message"}
             </Button>
           </motion.form>
         </div>
