@@ -7,9 +7,9 @@ const experiences = [
     company: "Adscart Technologies Pvt. Ltd.",
     period: "March 2026 – Present",
     points: [
-      "Designed and implemented a microservices architecture for an e-commerce platform",
-      "Integrated third-party payment gateways and real-time notification systems",
-      "Collaborated with a team of 5 using Agile methodologies and Git workflow",
+      "Designed and implemented RESTful APIs to support application features and backend communication.",
+      "Developed and optimized database schemas for efficient data storage and retrieval.",
+      "Built AI-driven automated test suites using Testim to improve test coverage and reduce manual effort",
     ],
   },
   {
@@ -17,9 +17,9 @@ const experiences = [
     company: "Civic Voice",
     period: "Oct 2025 – Dec 2025",
     points: [
-      "Designed and implemented RESTful APIs to support application features and backend communication.",
-      "Developed and optimized database schemas for efficient data storage and retrieval.",
-      "Built AI-driven automated test suites using Testim to improve test coverage and reduce manual effort",
+      "Designed and implemented a microservices architecture for an e-commerce platform",
+      "Integrated third-party payment gateways and real-time notification systems",
+      "Collaborated with a team of 5 using Agile methodologies and Git workflow",
     ],
   },
 ];
