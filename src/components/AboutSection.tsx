@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Code2, Cpu, Lightbulb, Trophy } from "lucide-react";
-import profileImg from "@/assets/my_photo.jpeg";
+// import profileImg from "@/assets/my_photo.jpeg";
+import profileImg from "../assets/DSC_0270.JPG";
 
 const facts = [
   { icon: Cpu, label: "ECE Graduate", value: "B.Tech" },
