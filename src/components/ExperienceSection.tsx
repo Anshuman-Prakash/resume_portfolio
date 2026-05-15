@@ -14,7 +14,7 @@ const experiences = [
   },
   {
     role: "Software Developer Intern",
-    company: "Civic Voice",
+    company: "Mojingo",
     period: "Oct 2025 – Dec 2025",
     points: [
       "Designed and implemented a microservices architecture for an e-commerce platform",
