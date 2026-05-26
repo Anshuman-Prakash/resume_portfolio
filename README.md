@@ -2,9 +2,6 @@
 
 A modern, responsive, and high-performance **developer portfolio** built using **Next.js** to showcase my projects, skills, and achievements.
 
-🌐 Live Demo: [Add your deployed link here]  
-📂 Repository: [Add your GitHub repo link here]
-
 ---
 
 ## 👨‍💻 About Me
