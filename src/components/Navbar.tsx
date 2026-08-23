@@ -85,7 +85,7 @@ const Navbar = () => {
                 </a>
               ))}
               <Button variant="hero" size="sm" asChild>
-                <a href="https://drive.google.com/file/d/1HeZccXz6NIMSddhcdPC2Y2hNT8Y8clFS/view?usp=drive_link" download>Resume</a>
+                <a href="https://drive.google.com/file/d/1IsJDc-3O8LxqD98Pn_OlJpk4Mgj7mVEm/view?usp=sharing" download>Resume</a>
               </Button>
             </div>
           </motion.div>
