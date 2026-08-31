@@ -46,6 +46,7 @@ const stats = [
 ];
 
 const achievements = [
+  { icon: Award, title: "Amazon Hackon Semi-Finalist 2026", desc: "Selected as a semi-finalist in the Amazon Hackon competition." },
   { icon: Award, title: "LeetCode 50 Days Badge", desc: "Achieved 1697+ rating in weekly contests" },
   { icon: Zap, title: "100 Days Streak", desc: "Maintained consistent daily problem solving" },
   { icon: Trophy, title: "Scholarship Recipient", desc: "Awarded GP Birla and regional merit-based scholarships twice for academic excellence." },

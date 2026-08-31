@@ -21,7 +21,8 @@ const categories: { title: string; skills: Skill[] }[] = [
     skills: [
       { name: "JavaScript", level: 90, color: "primary" },
       { name: "TypeScript", level: 80, color: "primary" },
-      { name: "C/C++", level: 75, color: "secondary" },
+      { name: "C++", level: 90, color: "secondary" },
+      { name: "Python", level: 80, color: "secondary" },
       { name: "HTML/CSS", level: 90, color: "primary" },
     ],
   },

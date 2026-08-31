@@ -6,7 +6,7 @@ const education = [
     degree: "B.Tech in Electronics & Communication Engineering",
     institution: "Birla Institute of Technology",
     period: "2023 – 2027",
-    grade: "CGPA: 7.5+/10",
+    grade: "CGPA: 8/10",
     highlights: ["DSA & Algorithm Design", "Microprocessors & Embedded Systems", "Web Technologies"],
   },
   {

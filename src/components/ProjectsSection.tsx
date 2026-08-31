@@ -4,6 +4,12 @@ import { Button } from "@/components/ui/button";
 
 const projects = [
   {
+    title: "AI Campus Flow",
+    description: "CampusFlow is an AI-powered Student Operating System designed to solve the problem of fragmented student information across multiple platforms.",
+    tech: ["React", "TypeScript", "Gemini API", "Node.js", "MongoDB", "Express", "Razorpay", "JWT", "Tailwind CSS"],
+    github: "https://github.com/Anshuman-Prakash/CampusFlow",
+  },
+  {
     title: "Ecomme",
     description: "Full-stack MERN e-commerce app with user auth, product management, cart, Razorpay payments, and admin dashboard.",
     tech: ["React", "Node.js", "MongoDB", "Express", "Razorpay", "JWT", "Tailwind CSS"],
@@ -26,6 +32,12 @@ const projects = [
     description: "Online antique coin marketplace with user authentication, product listings, secure payments, and admin dashboard.",
     tech: ["React", "MongoDB", "Cloudinary", "JWT", "Tailwind CSS", "Node.js", "Express", "Razorpay"],
     github: "https://github.com/Anshuman-Prakash/Coinify",
+  },
+  {
+    title: "Calender",
+    description: "A modern, responsive Wall Calendar Web Application inspired by physical hanging calendars. It combines clean UI design, interactive date selection, and note-taking features to create a polished frontend experience.",
+    tech: ["React", "Tailwind CSS", "Javascript"],
+    github: "https://github.com/Anshuman-Prakash/calendar",
   },
   {
     title: "Iphone-web",
