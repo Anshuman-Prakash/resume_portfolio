@@ -1,111 +1,112 @@
-import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-import { Trophy, Target, Flame, Star, Award, Zap } from "lucide-react";
+import { Reveal, SectionHead } from "@/components/editorial";
 
-function AnimatedCounter({ value, suffix = "" }: { value: number; suffix?: string }) {
+function AnimatedCounter({ value }: { value: number }) {
   const [display, setDisplay] = useState(0);
   const ref = useRef<HTMLSpanElement>(null);
-  const [hasAnimated, setHasAnimated] = useState(false);
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setDisplay(value);
+      return;
+    }
+    let raf = 0;
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting && !hasAnimated) {
-          setHasAnimated(true);
-          const start = performance.now();
-          const duration = 2000;
-          const step = (now: number) => {
-            const progress = Math.min((now - start) / duration, 1);
-            const eased = 1 - Math.pow(1 - progress, 3);
-            setDisplay(Math.round(eased * value));
-            if (progress < 1) requestAnimationFrame(step);
-          };
-          requestAnimationFrame(step);
-        }
+        if (!entry.isIntersecting) return;
+        observer.disconnect();
+        const start = performance.now();
+        const duration = 1600;
+        const step = (now: number) => {
+          const progress = Math.min((now - start) / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 4);
+          setDisplay(Math.round(eased * value));
+          if (progress < 1) raf = requestAnimationFrame(step);
+        };
+        raf = requestAnimationFrame(step);
       },
       { threshold: 0.5 }
     );
     observer.observe(el);
-    return () => observer.disconnect();
-  }, [value, hasAnimated]);
+    return () => {
+      observer.disconnect();
+      cancelAnimationFrame(raf);
+    };
+  }, [value]);
 
   return (
-    <span ref={ref} className="font-mono text-3xl md:text-4xl font-bold">
-      {display}{suffix}
+    <span ref={ref} className="tabular-nums">
+      {display}
     </span>
   );
 }
 
 const stats = [
-  { icon: Target, label: "Problems Solved", value: 500, suffix: "+", color: "text-accent" },
-  { icon: Flame, label: "Max Streak", value: 100, suffix: " days", color: "text-primary" },
-  { icon: Star, label: "LeetCode Rating", value: 1697, suffix: "+", color: "text-secondary" },
-  { icon: Trophy, label: "Contests Done", value: 10, suffix: "+", color: "text-accent" },
+  { label: "Problems Solved", value: 500, suffix: "+" },
+  { label: "Max Streak", value: 100, suffix: " days" },
+  { label: "LeetCode Rating", value: 1697, suffix: "+" },
+  { label: "Contests Done", value: 10, suffix: "+" },
 ];
 
 const achievements = [
-  { icon: Award, title: "Amazon Hackon Semi-Finalist 2026", desc: "Selected as a semi-finalist in the Amazon Hackon competition." },
-  { icon: Award, title: "LeetCode 50 Days Badge", desc: "Achieved 1697+ rating in weekly contests" },
-  { icon: Zap, title: "100 Days Streak", desc: "Maintained consistent daily problem solving" },
-  { icon: Trophy, title: "Scholarship Recipient", desc: "Awarded GP Birla and regional merit-based scholarships twice for academic excellence." },
-  { icon: Star, title: "SSB Interview Shortlist", desc: "Shortlisted for SSB interview– Indian Navy (South 24 Parganas)" },
+  { title: "Amazon Hackon Semi-Finalist 2026", desc: "Selected as a semi-finalist in the Amazon Hackon competition." },
+  { title: "LeetCode 50 Days Badge", desc: "Achieved 1697+ rating in weekly contests" },
+  { title: "100 Days Streak", desc: "Maintained consistent daily problem solving" },
+  { title: "Scholarship Recipient", desc: "Awarded GP Birla and regional merit-based scholarships twice for academic excellence." },
+  { title: "SSB Interview Shortlist", desc: "Shortlisted for SSB interview– Indian Navy (South 24 Parganas)" },
 ];
 
 const AchievementsSection = () => {
   return (
-    <section id="achievements" className="section-padding">
-      <div className="container mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
-        >
-          <p className="font-mono text-sm text-accent mb-2 tracking-widest uppercase">Competitive coding</p>
-          <h2 className="text-3xl md:text-5xl font-bold">Achievements & LeetCode</h2>
-        </motion.div>
+    <section id="achievements" className="section">
+      <div className="frame">
+        <SectionHead
+          index="05"
+          kicker="Competitive coding"
+          title={<>Achievements <em>&amp;</em> LeetCode</>}
+          aside="Record"
+        />
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+        {/* Figures */}
+        <dl className="grid grid-cols-2 lg:grid-cols-4 border-y border-foreground">
           {stats.map((stat, i) => (
-            <motion.div
+            <Reveal
               key={stat.label}
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              className="glass-hover rounded-2xl p-6 text-center"
+              delay={i * 0.06}
+              className="flex flex-col-reverse justify-between gap-6 border-border py-8 pr-4 even:border-l even:pl-4 [&:nth-child(-n+2)]:border-b lg:[&:nth-child(-n+2)]:border-b-0 lg:[&:not(:first-child)]:border-l lg:[&:not(:first-child)]:pl-6"
             >
-              <stat.icon className={`w-6 h-6 ${stat.color} mx-auto mb-3`} />
-              <AnimatedCounter value={stat.value} suffix={stat.suffix} />
-              <p className="text-xs text-muted-foreground mt-2">{stat.label}</p>
-            </motion.div>
+              <dt className="label text-muted-foreground">{stat.label}</dt>
+              <dd className="display text-[clamp(3.25rem,7.5vw,7.5rem)] leading-[0.85] whitespace-nowrap">
+                <AnimatedCounter value={stat.value} />
+                <span className={stat.suffix === "+" ? "text-accent" : "italic text-[0.42em] text-muted-foreground"}>
+                  {stat.suffix}
+                </span>
+              </dd>
+            </Reveal>
           ))}
-        </div>
+        </dl>
 
-        <div className="grid md:grid-cols-2 gap-4">
+        {/* Ledger */}
+        <ol className="mt-20 md:mt-28">
           {achievements.map((ach, i) => (
-            <motion.div
+            <Reveal
+              as="li"
               key={ach.title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              whileHover={{ x: 5 }}
-              className="glass-hover rounded-xl p-5 flex items-start gap-4"
+              delay={i * 0.05}
+              className="grid-12 gap-y-2 border-b border-border py-6 md:py-7 first:border-t first:border-t-foreground"
             >
-              <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-                <ach.icon className="w-5 h-5 text-primary" />
-              </div>
-              <div>
-                <h3 className="font-semibold text-foreground">{ach.title}</h3>
-                <p className="text-sm text-muted-foreground">{ach.desc}</p>
-              </div>
-            </motion.div>
+              <span className="label col-span-2 md:col-span-1 pt-2 text-accent">{String(i + 1).padStart(2, "0")}</span>
+              <h3 className="display col-span-10 md:col-span-6 text-[clamp(1.75rem,2.8vw,2.5rem)] leading-[1.05]">
+                {ach.title}
+              </h3>
+              <p className="col-span-10 col-start-3 md:col-start-8 md:col-span-5 text-[0.975rem] leading-relaxed text-muted-foreground md:pt-2">
+                {ach.desc}
+              </p>
+            </Reveal>
           ))}
-        </div>
+        </ol>
       </div>
     </section>
   );

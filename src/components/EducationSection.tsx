@@ -1,12 +1,11 @@
-import { motion } from "framer-motion";
-import { GraduationCap, Calendar } from "lucide-react";
+import { Reveal, SectionHead } from "@/components/editorial";
 
 const education = [
   {
     degree: "B.Tech in Electronics & Communication Engineering",
     institution: "Birla Institute of Technology",
     period: "2023 – 2027",
-    grade: "CGPA: 8/10",
+    grade: "CGPA: 8.03/10",
     highlights: ["DSA & Algorithm Design", "Microprocessors & Embedded Systems", "Web Technologies"],
   },
   {
@@ -25,56 +24,54 @@ const education = [
   },
 ];
 
+/** "CGPA: 8/10" → label "CGPA", figure "8/10"; percentages stay whole. */
+const splitGrade = (grade: string) => {
+  const [head, tail] = grade.split(": ");
+  return tail ? { unit: head, figure: tail } : { unit: "Score", figure: head };
+};
+
 const EducationSection = () => {
   return (
-    <section id="education" className="section-padding">
-      <div className="container mx-auto max-w-3xl">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
-        >
-          <p className="font-mono text-sm text-secondary mb-2 tracking-widest uppercase">Academic background</p>
-          <h2 className="text-3xl md:text-5xl font-bold">Education</h2>
-        </motion.div>
+    <section id="education" className="section">
+      <div className="frame">
+        <SectionHead index="06" kicker="Academic background" title={<><em>Education</em></>} aside="Transcript" />
 
-        <div className="space-y-6">
-          {education.map((edu, i) => (
-            <motion.div
-              key={edu.degree}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.15 }}
-              className="glass-hover rounded-2xl p-6"
-            >
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 rounded-xl bg-secondary/10 flex items-center justify-center shrink-0">
-                  <GraduationCap className="w-6 h-6 text-secondary" />
-                </div>
-                <div className="flex-1">
-                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 mb-1">
-                    <h3 className="text-lg font-bold text-foreground">{edu.degree}</h3>
-                    <span className="font-mono text-xs text-primary flex items-center gap-1">
-                      <Calendar size={12} /> {edu.period}
-                    </span>
-                  </div>
-                  <p className="text-sm text-muted-foreground mb-1">{edu.institution}</p>
-                  <p className="text-sm font-mono text-accent mb-3">{edu.grade}</p>
-                  <div className="flex flex-wrap gap-2">
-                    {edu.highlights.map((h) => (
-                      <span key={h} className="text-xs px-3 py-1 rounded-full bg-secondary/10 text-secondary border border-secondary/20 font-mono">
-                        {h}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          ))}
+        <div className="hidden lg:grid grid-12 label border-b border-foreground pb-3 text-muted-foreground">
+          <span className="col-span-2">Period</span>
+          <span className="col-span-5">Qualification</span>
+          <span className="col-span-2">Result</span>
+          <span className="col-span-3">Focus</span>
         </div>
+
+        <ol className="border-t border-foreground lg:border-t-0">
+          {education.map((edu, i) => {
+            const { unit, figure } = splitGrade(edu.grade);
+            return (
+              <Reveal as="li" key={edu.degree} delay={i * 0.08} className="grid-12 gap-y-5 border-b border-border py-9 md:py-11">
+                <p className="meta col-span-6 lg:col-span-2 lg:pt-2">{edu.period}</p>
+                <div className="col-span-6 lg:hidden text-right">
+                  <span className="display text-4xl leading-none">{figure}</span>
+                  <span className="label ml-2 text-muted-foreground">{unit}</span>
+                </div>
+                <div className="col-span-12 lg:col-span-5">
+                  <h3 className="display text-[clamp(1.9rem,3vw,2.75rem)] leading-[1.02] text-balance">{edu.degree}</h3>
+                  <p className="label mt-3 text-muted-foreground">{edu.institution}</p>
+                </div>
+                <div className="hidden lg:block lg:col-span-2">
+                  <p className="display text-[3.5rem] leading-[0.9]">{figure}</p>
+                  <p className="label mt-2 text-muted-foreground">{unit}</p>
+                </div>
+                <ul className="col-span-12 lg:col-span-3 lg:pt-2 space-y-1.5">
+                  {edu.highlights.map((h) => (
+                    <li key={h} className="meta text-muted-foreground before:mr-2 before:text-accent before:content-['—']">
+                      {h}
+                    </li>
+                  ))}
+                </ul>
+              </Reveal>
+            );
+          })}
+        </ol>
       </div>
     </section>
   );

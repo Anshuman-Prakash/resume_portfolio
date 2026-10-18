@@ -1,90 +1,93 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Instrument+Serif:ital@0;1&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/*
+  "Signal & Ink" — warm paper, ink type, one vermilion signal colour.
+  Paper is the light theme, carbon the dark one. `.ink` flips a block
+  to the opposite surface so inverted panels work in either theme.
+*/
 @layer base {
-  /* Light Mode */
-  :root, .light {
-    --background: 210 20% 98%;
-    --foreground: 222 47% 11%;
+  :root,
+  .light {
+    --paper: 43 24% 90%;
+    --paper-deep: 40 18% 84%;
+    --ink: 40 8% 8%;
+    --ink-soft: 40 6% 34%;
+    --signal: 14 82% 43%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
+    --carbon: 40 6% 7%;
+    --carbon-raised: 40 5% 12%;
+    --chalk: 40 25% 90%;
+    --chalk-soft: 40 8% 64%;
+    --signal-bright: 14 95% 58%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
-
-    --primary: 217 91% 60%;
-    --primary-foreground: 0 0% 100%;
-
-    --secondary: 271 81% 56%;
-    --secondary-foreground: 0 0% 100%;
-
-    --muted: 210 20% 93%;
-    --muted-foreground: 215 16% 47%;
-
-    --accent: 160 84% 39%;
+    --background: var(--paper);
+    --foreground: var(--ink);
+    --card: var(--paper-deep);
+    --card-foreground: var(--ink);
+    --popover: var(--paper);
+    --popover-foreground: var(--ink);
+    --primary: var(--ink);
+    --primary-foreground: var(--paper);
+    --secondary: var(--paper-deep);
+    --secondary-foreground: var(--ink);
+    --muted: var(--paper-deep);
+    --muted-foreground: var(--ink-soft);
+    --accent: var(--signal);
     --accent-foreground: 0 0% 100%;
-
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 214 32% 91%;
-    --input: 214 32% 91%;
-    --ring: 217 91% 60%;
-
-    --radius: 0.75rem;
-
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 222 47% 11%;
-    --sidebar-primary: 217 91% 60%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 210 20% 93%;
-    --sidebar-accent-foreground: 222 47% 11%;
-    --sidebar-border: 214 32% 91%;
-    --sidebar-ring: 217 91% 60%;
+    --destructive: 0 72% 45%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 40 10% 76%;
+    --input: 40 10% 70%;
+    --ring: var(--signal);
+    --radius: 0px;
   }
 
-  /* Dark Mode */
   .dark {
-    --background: 0 0% 2%;
-    --foreground: 210 40% 98%;
+    --background: var(--carbon);
+    --foreground: var(--chalk);
+    --card: var(--carbon-raised);
+    --card-foreground: var(--chalk);
+    --popover: var(--carbon-raised);
+    --popover-foreground: var(--chalk);
+    --primary: var(--chalk);
+    --primary-foreground: var(--carbon);
+    --secondary: var(--carbon-raised);
+    --secondary-foreground: var(--chalk);
+    --muted: var(--carbon-raised);
+    --muted-foreground: var(--chalk-soft);
+    --accent: var(--signal-bright);
+    --accent-foreground: var(--carbon);
+    --border: 40 5% 21%;
+    --input: 40 5% 28%;
+    --ring: var(--signal-bright);
+  }
 
-    --card: 0 0% 7%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 0 0% 7%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 217 91% 60%;
-    --primary-foreground: 0 0% 100%;
-
-    --secondary: 271 81% 56%;
-    --secondary-foreground: 0 0% 100%;
-
-    --muted: 217 19% 27%;
-    --muted-foreground: 215 20% 65%;
-
-    --accent: 160 84% 39%;
+  /* Inverted panel: carbon on paper pages, paper on carbon pages. */
+  .ink {
+    --background: var(--carbon);
+    --foreground: var(--chalk);
+    --card: var(--carbon-raised);
+    --muted-foreground: var(--chalk-soft);
+    --accent: var(--signal-bright);
+    --accent-foreground: var(--carbon);
+    --border: 40 5% 24%;
+    --input: 40 5% 34%;
+    --ring: var(--signal-bright);
+  }
+  .dark .ink {
+    --background: var(--paper);
+    --foreground: var(--ink);
+    --card: var(--paper-deep);
+    --muted-foreground: var(--ink-soft);
+    --accent: var(--signal);
     --accent-foreground: 0 0% 100%;
-
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 0 0% 15%;
-    --input: 0 0% 15%;
-    --ring: 217 91% 60%;
-
-    --sidebar-background: 0 0% 5%;
-    --sidebar-foreground: 210 40% 98%;
-    --sidebar-primary: 217 91% 60%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 0 0% 12%;
-    --sidebar-accent-foreground: 210 40% 98%;
-    --sidebar-border: 0 0% 15%;
-    --sidebar-ring: 217 91% 60%;
+    --border: 40 10% 76%;
+    --input: 40 10% 64%;
+    --ring: var(--signal);
   }
 }
 
@@ -92,70 +95,125 @@
   * {
     @apply border-border;
   }
-  body {
-    @apply bg-background text-foreground font-sans antialiased transition-colors duration-500;
-  }
   html {
     scroll-behavior: smooth;
+    scroll-padding-top: 4rem;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-feature-settings: "ss01", "ss02";
+    text-rendering: optimizeLegibility;
+    transition: background-color 0.5s ease, color 0.5s ease;
+  }
+  /* Paper grain: a fixed, very quiet noise layer. */
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 100;
+    opacity: 0.07;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.9 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  }
+  .dark body::after {
+    mix-blend-mode: screen;
+    opacity: 0.035;
+    filter: invert(1);
+  }
+  ::selection {
+    background: hsl(var(--accent));
+    color: hsl(var(--accent-foreground));
+  }
+  :focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 3px;
   }
 }
 
-@layer utilities {
-  .glass {
-    @apply bg-card/60 backdrop-blur-xl border border-border/50;
+@layer components {
+  /* Page frame: the 12-column grid everything hangs from. */
+  .frame {
+    @apply mx-auto w-full max-w-[1440px] px-5 sm:px-8 lg:px-12;
   }
-  .glass-hover {
-    @apply glass hover:border-primary/30 transition-all duration-300;
-  }
-  .text-gradient-primary {
-    @apply bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent;
-  }
-  .text-gradient-accent {
-    @apply bg-gradient-to-r from-accent to-primary bg-clip-text text-transparent;
-  }
-  .glow-primary {
-    box-shadow: 0 0 20px hsl(217 91% 60% / 0.3), 0 0 60px hsl(217 91% 60% / 0.1);
-  }
-  .glow-secondary {
-    box-shadow: 0 0 20px hsl(271 81% 56% / 0.3), 0 0 60px hsl(271 81% 56% / 0.1);
-  }
-  .glow-accent {
-    box-shadow: 0 0 20px hsl(160 84% 39% / 0.3), 0 0 60px hsl(160 84% 39% / 0.1);
-  }
-  .mesh-gradient {
-    background: radial-gradient(at 20% 80%, hsl(217 91% 60% / 0.08) 0%, transparent 50%),
-                radial-gradient(at 80% 20%, hsl(271 81% 56% / 0.08) 0%, transparent 50%),
-                radial-gradient(at 50% 50%, hsl(160 84% 39% / 0.04) 0%, transparent 70%);
+  .grid-12 {
+    @apply grid grid-cols-12 gap-x-4 lg:gap-x-6;
   }
 
-  .dark .mesh-gradient {
-    background: radial-gradient(at 20% 80%, hsl(217 91% 60% / 0.08) 0%, transparent 50%),
-                radial-gradient(at 80% 20%, hsl(271 81% 56% / 0.08) 0%, transparent 50%),
-                radial-gradient(at 50% 50%, hsl(160 84% 39% / 0.04) 0%, transparent 70%);
+  .display {
+    font-family: "Instrument Serif", ui-serif, Georgia, serif;
+    font-weight: 400;
+    letter-spacing: -0.022em;
+    line-height: 0.9;
+    font-feature-settings: "liga", "dlig";
+  }
+  .label {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 0.6875rem;
+    line-height: 1.4;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .meta {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 0.75rem;
+    line-height: 1.6;
+    letter-spacing: 0.01em;
   }
 
-  .light .mesh-gradient {
-    background: radial-gradient(at 20% 80%, hsl(217 91% 60% / 0.05) 0%, transparent 50%),
-                radial-gradient(at 80% 20%, hsl(271 81% 56% / 0.05) 0%, transparent 50%),
-                radial-gradient(at 50% 50%, hsl(160 84% 39% / 0.03) 0%, transparent 70%);
+  /* Underline that draws in from the left. */
+  .u-link {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0% 1px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 0.45s cubic-bezier(0.22, 1, 0.36, 1), color 0.2s ease;
+  }
+  .u-link:hover,
+  .u-link:focus-visible {
+    background-size: 100% 1px;
+  }
+  .u-link-static {
+    background-size: 100% 1px;
+  }
+  .u-link-static:hover {
+    background-size: 0% 1px;
+    background-position: 100% 100%;
   }
 
-  .section-padding {
-    @apply py-20 md:py-28 px-4 md:px-8;
+  .section {
+    @apply py-20 md:py-28 lg:py-32;
   }
 }
 
-/* Scrollbar */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 8px;
 }
 ::-webkit-scrollbar-track {
   background: hsl(var(--background));
 }
 ::-webkit-scrollbar-thumb {
-  background: hsl(var(--muted));
-  border-radius: 3px;
+  background: hsl(var(--foreground) / 0.25);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: hsl(217 91% 60% / 0.5);
+  background: hsl(var(--accent));
+}
+
+@layer utilities {
+  .ease-expo {
+    transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  }
 }

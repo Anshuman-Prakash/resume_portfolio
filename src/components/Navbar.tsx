@@ -1,97 +1,176 @@
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { useEffect, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import ThemeToggle from "@/components/ThemeToggle";
+import { Arrow, EASE } from "@/components/editorial";
+import { RESUME_URL, sections } from "@/data/profile";
+import { cn } from "@/lib/utils";
 
-const navLinks = [
-  { label: "About", href: "#about" },
-  { label: "Skills", href: "#skills" },
-  { label: "Projects", href: "#projects" },
-  { label: "Experience", href: "#experience" },
-  { label: "Achievements", href: "#achievements" },
-  { label: "Education", href: "#education" },
-  { label: "Contact", href: "#contact" },
-];
+const pad = (n: number) => String(n + 1).padStart(2, "0");
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [active, setActive] = useState<string>("");
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener("scroll", onScroll);
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // Track which section sits under the upper third of the viewport.
+  useEffect(() => {
+    const els = sections.map((s) => document.getElementById(s.id)).filter(Boolean) as HTMLElement[];
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) setActive(e.target.id);
+        });
+      },
+      { rootMargin: "-35% 0px -60% 0px" }
+    );
+    els.forEach((el) => io.observe(el));
+    const onTop = () => window.scrollY < 200 && setActive("");
+    window.addEventListener("scroll", onTop, { passive: true });
+    return () => {
+      io.disconnect();
+      window.removeEventListener("scroll", onTop);
+    };
+  }, []);
+
+  useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "";
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
+
   return (
-    <motion.nav
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? "glass py-3" : "bg-transparent py-5"
-      }`}
-    >
-      <div className="container mx-auto flex items-center justify-between">
-        <a href="#" className="text-xl font-bold font-mono text-gradient-primary">
-          {"<AP />"}
-        </a>
+    <>
+      <motion.nav
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.6, delay: 0.5 }}
+        aria-label="Primary"
+        className={cn(
+          "fixed inset-x-0 top-0 z-50 transition-[background-color,border-color] duration-500",
+          scrolled || open ? "bg-background/90 backdrop-blur-sm border-b border-border" : "border-b border-transparent"
+        )}
+      >
+        <div className="frame flex h-14 items-center justify-between gap-6">
+          <a href="#" className="display text-[1.375rem] leading-none tracking-tight" onClick={() => setOpen(false)}>
+            Anshuman Prakash<span className="text-accent">.</span>
+          </a>
 
-        {/* Desktop */}
-        <div className="hidden md:flex items-center gap-6">
-          {navLinks.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
-            >
-              {link.label}
-            </a>
-          ))}
-          <ThemeToggle />
-          <Button variant="hero" size="sm" asChild>
-            <a href="https://drive.google.com/file/d/1IsJDc-3O8LxqD98Pn_OlJpk4Mgj7mVEm/view?usp=sharing" download>Resume</a>
-          </Button>
-        </div>
-
-        {/* Mobile toggle */}
-        <div className="flex md:hidden items-center gap-3">
-          <ThemeToggle />
-          <button className="text-foreground" onClick={() => setMobileOpen(!mobileOpen)}>
-            {mobileOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-        </div>
-      </div>
-
-      {/* Mobile menu */}
-      <AnimatePresence>
-        {mobileOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden glass mt-2 mx-4 rounded-lg overflow-hidden"
-          >
-            <div className="flex flex-col p-4 gap-3">
-              {navLinks.map((link) => (
+          <ul className="hidden xl:flex items-center gap-7">
+            {sections.map((s, i) => (
+              <li key={s.id}>
                 <a
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setMobileOpen(false)}
-                  className="text-sm text-muted-foreground hover:text-foreground transition-colors py-1"
+                  href={`#${s.id}`}
+                  className={cn(
+                    "label group flex items-baseline gap-1.5 transition-colors",
+                    active === s.id ? "text-foreground" : "text-muted-foreground hover:text-foreground"
+                  )}
+                  aria-current={active === s.id ? "true" : undefined}
                 >
-                  {link.label}
+                  <span className={cn("transition-colors", active === s.id ? "text-accent" : "text-muted-foreground/70")}>
+                    {pad(i)}
+                  </span>
+                  <span className="u-link">{s.label}</span>
                 </a>
-              ))}
-              <Button variant="hero" size="sm" asChild>
-                <a href="https://drive.google.com/file/d/1IsJDc-3O8LxqD98Pn_OlJpk4Mgj7mVEm/view?usp=sharing" download>Resume</a>
-              </Button>
+              </li>
+            ))}
+          </ul>
+
+          <div className="flex items-center gap-5 md:gap-7">
+            <ThemeToggle className="hidden sm:inline-flex" />
+            <a
+              href={RESUME_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              download
+              className="label hidden sm:inline-flex items-center gap-1.5 border border-foreground px-3 py-2 transition-colors hover:bg-foreground hover:text-background"
+            >
+              Resume <Arrow direction="down" />
+            </a>
+            <button
+              className="label xl:hidden inline-flex items-center gap-2"
+              onClick={() => setOpen((v) => !v)}
+              aria-expanded={open}
+              aria-controls="mobile-index"
+            >
+              <span className="relative block h-2.5 w-5" aria-hidden="true">
+                <span
+                  className={cn(
+                    "absolute left-0 right-0 h-px bg-foreground transition-transform duration-500",
+                    open ? "top-1/2 rotate-45" : "top-0"
+                  )}
+                />
+                <span
+                  className={cn(
+                    "absolute left-0 right-0 h-px bg-foreground transition-transform duration-500",
+                    open ? "top-1/2 -rotate-45" : "bottom-0"
+                  )}
+                />
+              </span>
+              {open ? "Close" : "Index"}
+            </button>
+          </div>
+        </div>
+      </motion.nav>
+
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            id="mobile-index"
+            initial={{ clipPath: "inset(0 0 100% 0)" }}
+            animate={{ clipPath: "inset(0 0 0% 0)" }}
+            exit={{ clipPath: "inset(0 0 100% 0)" }}
+            transition={{ duration: 0.6, ease: EASE }}
+            className="fixed inset-0 z-40 flex flex-col bg-background pt-14 xl:hidden"
+          >
+            <nav aria-label="Sections" className="frame flex-1 overflow-y-auto py-6">
+              <ul>
+                {sections.map((s, i) => (
+                  <motion.li
+                    key={s.id}
+                    initial={{ opacity: 0, y: 16 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.15 + i * 0.04, duration: 0.5, ease: EASE }}
+                    className="border-b border-border"
+                  >
+                    <a
+                      href={`#${s.id}`}
+                      onClick={() => setOpen(false)}
+                      className="flex items-baseline gap-4 py-3.5"
+                    >
+                      <span className="label w-6 text-accent">{pad(i)}</span>
+                      <span className="display text-[2.6rem] sm:text-6xl leading-none">{s.label}</span>
+                    </a>
+                  </motion.li>
+                ))}
+              </ul>
+            </nav>
+            <div className="frame flex items-center justify-between border-t border-foreground py-5">
+              <ThemeToggle />
+              <a
+                href={RESUME_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                download
+                className="label inline-flex items-center gap-1.5 border border-foreground px-3 py-2"
+              >
+                Resume <Arrow direction="down" />
+              </a>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
-    </motion.nav>
+    </>
   );
 };
 
