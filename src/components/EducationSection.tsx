@@ -3,7 +3,7 @@ import { Reveal, SectionHead } from "@/components/editorial";
 const education = [
   {
     degree: "B.Tech in Electronics & Communication Engineering",
-    institution: "Birla Institute of Technology",
+    institution: "Birla Institute of Technology, Mesra, Ranchi",
     period: "2023 – 2027",
     grade: "CGPA: 8.03/10",
     highlights: ["DSA & Algorithm Design", "Microprocessors & Embedded Systems", "Web Technologies"],
@@ -34,7 +34,7 @@ const EducationSection = () => {
   return (
     <section id="education" className="section">
       <div className="frame">
-        <SectionHead index="06" kicker="Academic background" title={<><em>Education</em></>} aside="Transcript" />
+        <SectionHead index="07" kicker="Academic background" title={<><em>Education</em></>} aside="Transcript" />
 
         <div className="hidden lg:grid grid-12 label border-b border-foreground pb-3 text-muted-foreground">
           <span className="col-span-2">Period</span>

@@ -84,7 +84,7 @@ const ContactSection = () => {
   return (
     <section id="contact" className="ink section bg-background text-foreground">
       <div className="frame">
-        <SectionHead index="07" kicker="Get in touch" title="Contact Me" quiet />
+        <SectionHead index="08" kicker="Get in touch" title="Contact Me" quiet />
 
         {/* Closing statement, set at the same scale as the hero name */}
         <Reveal>

@@ -63,7 +63,7 @@ const AchievementsSection = () => {
     <section id="achievements" className="section">
       <div className="frame">
         <SectionHead
-          index="05"
+          index="06"
           kicker="Competitive coding"
           title={<>Achievements <em>&amp;</em> LeetCode</>}
           aside="Record"
