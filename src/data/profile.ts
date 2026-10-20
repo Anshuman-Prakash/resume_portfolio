@@ -1,5 +1,5 @@
 export const RESUME_URL =
-  "https://drive.google.com/file/d/1mD8D6UHNv4qsGxttg0eBI1JiaApdbqbH/view?usp=drive_link";
+  "https://drive.google.com/file/d/1Y9tGO0YbKvXPIr7Bwznx6HrWepIpBHbI/view?usp=sharing";
 
 export const socials = [
   { label: "GitHub", href: "https://github.com/Anshuman-Prakash" },
