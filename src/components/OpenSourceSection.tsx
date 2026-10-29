@@ -1,84 +1,96 @@
 import { Arrow, Reveal, SectionHead } from "@/components/editorial";
 
-const AUTHOR = "ShivamSharma43";
+const AUTHOR = "Anshuman-Prakash";
 
 const mergedQuery = (slug: string) =>
   `https://github.com/${slug}/pulls?q=is%3Apr+is%3Amerged+author%3A${AUTHOR}`;
 
 const contributions = [
   {
-    org: "Microsoft",
-    repo: "agent-governance-toolkit",
-    slug: "microsoft/agent-governance-toolkit",
-    desc: "Correctness fixes across agent-sre (SLOs, burn rate, W3C trace context, CycloneDX), agent-hypervisor (shell denylist parsing, a deadlock), agent-mesh (trust decay, TTL expiry), agent-compliance and agent-discovery.",
-    tags: ["Go", "Agents", "Observability"],
-    merged: 27,
+    org: "Elastic",
+    repo: "beats",
+    slug: "elastic/beats",
+    desc: "Documentation, error-string and stale-metadata corrections across Filebeat inputs, outputs and the module reference.",
+    tags: ["Docs", "Go"],
+    merged: 8,
   },
   {
     org: "Elastic",
-    repo: "connectors",
-    slug: "elastic/connectors",
-    desc: "Bug fixes in the Elasticsearch sink and the SharePoint, Box, Notion, Jira, Zoom, Oracle, PostgreSQL, ServiceNow, Dropbox, Azure Blob and GitHub connectors.",
-    tags: ["Python", "Data ingestion"],
-    merged: 17,
+    repo: "elastic-agent",
+    slug: "elastic/elastic-agent",
+    desc: "Documentation and error-message fixes across the agent's install, upgrade and diagnostics paths.",
+    tags: ["Docs", "Go"],
+    merged: 8,
   },
   {
     org: "Google Cloud",
     repo: "k8s-aibom",
     slug: "GoogleCloudPlatform/k8s-aibom",
-    desc: "AI/ML image detection patterns (vLLM ROCm/CPU, TensorRT-LLM, TF Serving, TorchServe, Xinference, Aphrodite, LocalAI, Speaches) plus two controller features.",
+    desc: "Six new AI/ML container image detection patterns — vLLM on ROCm and CPU, NVIDIA TensorRT-LLM, LocalAI, Speaches and faster-whisper.",
     tags: ["Go", "Kubernetes"],
-    merged: 12,
-  },
-  {
-    org: "Microsoft",
-    repo: "PyRIT",
-    slug: "microsoft/PyRIT",
-    desc: "Made converter and target identifiers reflect output-changing settings to stop bad cache reuse, added input validation, and fixed OpenAI Realtime state handling.",
-    tags: ["Python", "AI red teaming"],
-    merged: 12,
-  },
-  {
-    org: "Microsoft",
-    repo: "agent-framework",
-    slug: "microsoft/agent-framework",
-    desc: "Python SDK: MCP prompt catalog refresh, fenced-JSON parsing in the group chat orchestrator, and the AG-UI approval snapshot.",
-    tags: ["Python", "MCP"],
-    merged: 3,
+    merged: 6,
   },
   {
     org: "Elastic",
-    repo: "beats",
-    slug: "elastic/beats",
-    desc: "Documentation corrections for Filebeat GCS and Azure Blob inputs, Kafka output credentials, and Redis fields.",
-    tags: ["Docs", "Go"],
-    merged: 3,
+    repo: "eui",
+    slug: "elastic/eui",
+    desc: "Memoized two Emotion style computations to cut re-render cost in form control components.",
+    tags: ["TypeScript", "React"],
+    merged: 2,
   },
   {
-    org: "Microsoft",
-    repo: "edge-ai",
-    slug: "microsoft/edge-ai",
-    desc: "Plan-level Terraform tests for the Fabric, assets and Azure ML modules.",
-    tags: ["Terraform", "Testing"],
-    merged: 2,
+    org: "Temporal",
+    repo: "sdk-rust",
+    slug: "temporalio/sdk-rust",
+    desc: "Fixed a cancel-token map leak in the activity task handler.",
+    tags: ["Rust", "Concurrency"],
+    merged: 1,
   },
 ];
 
 const singles = [
-  { label: "microsoft/typespec", slug: "microsoft/typespec", note: "http-client-js unused context" },
-  { label: "microsoft/mcp", slug: "microsoft/mcp", note: "server start failures to stderr" },
-  { label: "elastic/eui", slug: "elastic/eui", note: "memoized EuiFormControlLayout icon styles" },
-  { label: "temporalio/sdk-rust", slug: "temporalio/sdk-rust", note: "activity cancel-token map leak" },
+  {
+    org: "Microsoft",
+    label: "microsoft/hve-core",
+    slug: "microsoft/hve-core",
+    note: "docs and stale-metadata corrections",
+    merged: 6,
+  },
+  {
+    org: "AWS Labs",
+    label: "awslabs/graphrag-toolkit",
+    slug: "awslabs/graphrag-toolkit",
+    note: "CloudFormation stack deletion waiter",
+    merged: 1,
+  },
+  {
+    org: "Microsoft",
+    label: "microsoft/agent-framework",
+    slug: "microsoft/agent-framework",
+    note: "MCP prompt catalog refresh",
+    merged: 1,
+  },
+  {
+    org: "Kiwix",
+    label: "kiwix/kiwix-android",
+    slug: "kiwix/kiwix-android",
+    note: "documentation and grammar fixes",
+    merged: 1,
+  },
 ];
 
-const TOTAL = contributions.reduce((n, c) => n + c.merged, 0) + singles.length;
+const TOTAL = [...contributions, ...singles].reduce((n, c) => n + c.merged, 0);
+const OPEN = 36;
+const REPOS = 12;
 
-const byOrg = [
-  { org: "Microsoft", count: 46 },
-  { org: "Elastic", count: 21 },
-  { org: "Google Cloud", count: 12 },
-  { org: "Temporal", count: 1 },
-];
+const byOrg = Object.entries(
+  [...contributions, ...singles].reduce<Record<string, number>>((acc, c) => {
+    acc[c.org] = (acc[c.org] ?? 0) + c.merged;
+    return acc;
+  }, {}),
+)
+  .map(([org, count]) => ({ org, count }))
+  .sort((a, b) => b.count - a.count);
 
 const OpenSourceSection = () => {
   return (
@@ -93,8 +105,12 @@ const OpenSourceSection = () => {
 
         <div className="grid-12 mb-14 md:mb-20 gap-y-8">
           <p className="col-span-12 md:col-start-3 md:col-span-8 lg:col-span-6 text-[1.05rem] leading-relaxed text-muted-foreground">
-            Alongside my other work, I contribute to large open-source projects — mostly correctness fixes in
-            agent infrastructure, data connectors and AI tooling. {TOTAL} of my pull requests have been merged so far.
+            Alongside my other work I contribute to large production codebases — reading unfamiliar code, following
+            each project's contribution process, and landing small, reviewed changes. {TOTAL} pull requests have been
+            merged across {REPOS} upstream repositories since September 2026: 23 documentation, error-string and
+            stale-metadata corrections, 6 new AI/ML image-detection patterns in k8s-aibom, and 5 code fixes in
+            elastic/eui, temporalio/sdk-rust, awslabs/graphrag-toolkit and microsoft/agent-framework. Between merged
+            and in-review work that spans Go, Rust, Python, TypeScript/React, Java and Kotlin.
           </p>
           <ul className="col-span-12 md:col-start-3 md:col-span-8 lg:col-start-9 lg:col-span-4 flex flex-wrap gap-x-8 gap-y-3 self-end">
             {byOrg.map((o) => (
@@ -139,7 +155,7 @@ const OpenSourceSection = () => {
                 <a href={mergedQuery(s.slug)} target="_blank" rel="noopener noreferrer" className="u-link text-foreground">
                   {s.label}
                 </a>
-                <span> — {s.note}</span>
+                <span> — {s.note} ({s.merged} merged)</span>
               </li>
             ))}
           </ul>
@@ -147,7 +163,7 @@ const OpenSourceSection = () => {
 
         <p className="label mt-10 text-muted-foreground">
           <span className="mr-2 inline-block h-1.5 w-1.5 rounded-full bg-accent align-middle" aria-hidden="true" />
-          More under review at Elastic, HashiCorp, Temporal, AWS and Google.
+          {OPEN} more pull requests open and awaiting maintainer review at Elastic, Google Cloud and HashiCorp.
         </p>
       </div>
     </section>
