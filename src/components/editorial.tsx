@@ -59,7 +59,7 @@ export const SectionHead = ({
       className="h-px origin-left bg-foreground"
     />
     <div className="grid-12 pt-3">
-      <span className="label col-span-3 md:col-span-2 text-accent">§ {index}</span>
+      <span className="label col-span-3 md:col-span-2 text-accent">{index}</span>
       <span className="label col-span-9 md:col-span-4 text-muted-foreground">{kicker}</span>
       {quiet ? (
         <h2 className="label col-span-12 md:col-span-6 mt-1 md:mt-0 md:text-right">{title}</h2>
