@@ -5,7 +5,7 @@
 @tailwind utilities;
 
 /*
-  "Signal & Ink" — warm paper, ink type, one vermilion signal colour.
+  "Signal & Ink" — warm paper, ink type, one red signal colour.
   Paper is the light theme, carbon the dark one. `.ink` flips a block
   to the opposite surface so inverted panels work in either theme.
 */
@@ -16,13 +16,13 @@
     --paper-deep: 40 18% 84%;
     --ink: 40 8% 8%;
     --ink-soft: 40 6% 34%;
-    --signal: 14 82% 43%;
+    --signal: 0 60.3% 54.5%;
 
     --carbon: 40 6% 7%;
     --carbon-raised: 40 5% 12%;
     --chalk: 40 25% 90%;
     --chalk-soft: 40 8% 64%;
-    --signal-bright: 14 95% 58%;
+    --signal-bright: 0 75% 65%;
 
     --background: var(--paper);
     --foreground: var(--ink);
