@@ -10,15 +10,23 @@ const contributions = [
     org: "Elastic",
     repo: "beats",
     slug: "elastic/beats",
-    desc: "Documentation, error-string and stale-metadata corrections across Filebeat inputs, outputs and the module reference.",
+    desc: "Documentation and grammar corrections across Filebeat and Metricbeat references, the Palo Alto Networks module and EC2 autodiscover.",
     tags: ["Docs", "Go"],
-    merged: 8,
+    merged: 16,
+  },
+  {
+    org: "Microsoft",
+    repo: "hve-core",
+    slug: "microsoft/hve-core",
+    desc: "Documentation freshness work — ms.date maintenance and corrected configuration tables across the reference docs.",
+    tags: ["Docs"],
+    merged: 9,
   },
   {
     org: "Elastic",
     repo: "elastic-agent",
     slug: "elastic/elastic-agent",
-    desc: "Documentation and error-message fixes across the agent's install, upgrade and diagnostics paths.",
+    desc: "Typo and grammar fixes in the agent's CLI help text, Helm chart documentation and EDOT guides.",
     tags: ["Docs", "Go"],
     merged: 8,
   },
@@ -26,7 +34,7 @@ const contributions = [
     org: "Google Cloud",
     repo: "k8s-aibom",
     slug: "GoogleCloudPlatform/k8s-aibom",
-    desc: "Six new AI/ML container image detection patterns — vLLM on ROCm and CPU, NVIDIA TensorRT-LLM, LocalAI, Speaches and faster-whisper.",
+    desc: "Six new scraper detection patterns for AI/ML workloads — vLLM on ROCm and CPU, NVIDIA TensorRT-LLM, Speaches, LocalAI and faster-whisper.",
     tags: ["Go", "Kubernetes"],
     merged: 6,
   },
@@ -34,63 +42,57 @@ const contributions = [
     org: "Elastic",
     repo: "eui",
     slug: "elastic/eui",
-    desc: "Memoized two Emotion style computations to cut re-render cost in form control components.",
+    desc: "Memoized Emotion style computations in EuiFormControlLayout and EuiPagination to cut re-render cost.",
     tags: ["TypeScript", "React"],
     merged: 2,
-  },
-  {
-    org: "Temporal",
-    repo: "sdk-rust",
-    slug: "temporalio/sdk-rust",
-    desc: "Fixed a cancel-token map leak in the activity task handler.",
-    tags: ["Rust", "Concurrency"],
-    merged: 1,
   },
 ];
 
 const singles = [
   {
-    org: "Microsoft",
-    label: "microsoft/hve-core",
-    slug: "microsoft/hve-core",
-    note: "docs and stale-metadata corrections",
-    merged: 6,
-  },
-  {
     org: "AWS Labs",
     label: "awslabs/graphrag-toolkit",
     slug: "awslabs/graphrag-toolkit",
-    note: "CloudFormation stack deletion waiter",
+    note: "CloudFormation waiter fix for --prev-stack deletion",
+    merged: 1,
+  },
+  {
+    org: "Temporal",
+    label: "temporalio/sdk-rust",
+    slug: "temporalio/sdk-rust",
+    note: "activity cancel tokens removed on completion",
     merged: 1,
   },
   {
     org: "Microsoft",
     label: "microsoft/agent-framework",
     slug: "microsoft/agent-framework",
-    note: "MCP prompt catalog refresh",
+    note: "Python MCP prompt-catalog replacement on refresh",
     merged: 1,
   },
   {
     org: "Kiwix",
     label: "kiwix/kiwix-android",
     slug: "kiwix/kiwix-android",
-    note: "documentation and grammar fixes",
+    note: "WiFi hotspot book-selection copy",
     merged: 1,
   },
 ];
 
-const TOTAL = [...contributions, ...singles].reduce((n, c) => n + c.merged, 0);
-const OPEN = 36;
-const REPOS = 12;
+const all = [...contributions, ...singles];
+const TOTAL = all.reduce((n, c) => n + c.merged, 0);
+const REPOS = all.length;
 
 const byOrg = Object.entries(
-  [...contributions, ...singles].reduce<Record<string, number>>((acc, c) => {
+  all.reduce<Record<string, number>>((acc, c) => {
     acc[c.org] = (acc[c.org] ?? 0) + c.merged;
     return acc;
   }, {}),
 )
   .map(([org, count]) => ({ org, count }))
   .sort((a, b) => b.count - a.count);
+
+const ORGS = byOrg.length;
 
 const OpenSourceSection = () => {
   return (
@@ -107,10 +109,10 @@ const OpenSourceSection = () => {
           <p className="col-span-12 md:col-start-3 md:col-span-8 lg:col-span-6 text-[1.05rem] leading-relaxed text-muted-foreground">
             Alongside my other work I contribute to large production codebases — reading unfamiliar code, following
             each project's contribution process, and landing small, reviewed changes. {TOTAL} pull requests have been
-            merged across {REPOS} upstream repositories since September 2026: 23 documentation, error-string and
-            stale-metadata corrections, 6 new AI/ML image-detection patterns in k8s-aibom, and 5 code fixes in
-            elastic/eui, temporalio/sdk-rust, awslabs/graphrag-toolkit and microsoft/agent-framework. Between merged
-            and in-review work that spans Go, Rust, Python, TypeScript/React, Java and Kotlin.
+            merged across {REPOS} upstream repositories at {ORGS} organisations since October 2026: 34 documentation,
+            copy and stale-metadata corrections, 6 new AI/ML workload detection patterns in k8s-aibom, and 5 code
+            fixes in elastic/eui, temporalio/sdk-rust, awslabs/graphrag-toolkit and microsoft/agent-framework —
+            spanning Go, Rust, TypeScript/React, Python and Kotlin.
           </p>
           <ul className="col-span-12 md:col-start-3 md:col-span-8 lg:col-start-9 lg:col-span-4 flex flex-wrap gap-x-8 gap-y-3 self-end">
             {byOrg.map((o) => (
@@ -163,7 +165,7 @@ const OpenSourceSection = () => {
 
         <p className="label mt-10 text-muted-foreground">
           <span className="mr-2 inline-block h-1.5 w-1.5 rounded-full bg-accent align-middle" aria-hidden="true" />
-          {OPEN} more pull requests open and awaiting maintainer review at Elastic, Google Cloud and HashiCorp.
+          Code contributions — not only documentation — in Go, Rust, TypeScript/React and Python.
         </p>
       </div>
     </section>
